@@ -1,0 +1,87 @@
+<!-- The header background color is styled dynamically depending on the value of the checkbox.
+The same thing was done with most elements that contain the ngStyle directive-->
+<header [ngStyle]="{'background-color':darkModeChecked == false ? '#2cf1ac' : '#157151'}" id="header">
+  <h1>Connect 4</h1>
+  <!-- A div is used here to contain the dark mode switch and its label.
+  The text label is not inside the label tag for practical reasons.
+  Also, a form was not integrated for simplicity reasons -->
+  <div [ngSwitch]="darkModeChecked" id="darkModeSwitchContainer">
+    Dark Mode <span *ngSwitchCase="false">Off</span> <span *ngSwitchCase="true">On</span>
+    <label class="darkModeSwitch">
+      <input [(ngModel)]="darkModeChecked" hidden type="checkbox">
+      <div [ngClass]="darkModeChecked == true ? 'slider darkSlider' : 'slider lightSlider'"></div>
+    </label>
+  </div>
+</header>
+<main [ngStyle]="{'background-color':darkModeChecked == false ? '#F0FFFE' : '#717877'}">
+  <!-- The main header contains the message that informs the players of the state of the game
+  as well as a button to start a new game -->
+  <header [ngSwitch]="message">
+    <!-- A div was used to be able to employ flexbox properties
+    without affecting the shape of the button-->
+    <div id="buttonContainer">
+      <button (click)="newGame();" [ngClass]="darkModeChecked == true ? 'startNewGameBtn startNewGameBtnDark' :
+      'startNewGameBtn'" type="button">Start a new game
+      </button>
+    </div>
+    <!-- Game status message -->
+    <p *ngSwitchCase="'firstGame'" [ngSwitch]="turn"> The game automatically started!
+      <span *ngSwitchCase="true" [ngStyle]="{'color':darkModeChecked == false ? '#D63636' : '#651919'}"> Player 2</span>
+      <span *ngSwitchCase="false"
+            [ngStyle]="{'color':darkModeChecked == false ? '#FFDF00' : '#786900'}"> Player 1</span>
+      was randomly chosen to start!</p>
+    <p *ngSwitchCase="'turnInfo'" [ngSwitch]="turn">
+      <span *ngSwitchCase="true" [ngStyle]="{'color':darkModeChecked == false ? '#D63636' : '#651919'}"> Player 2</span>
+      <span *ngSwitchCase="false"
+            [ngStyle]="{'color':darkModeChecked == false ? '#FFDF00' : '#786900'}"> Player 1</span>, it's your turn!</p>
+    <p *ngSwitchCase="'gameOverWinner'" [ngSwitch]="turn">
+      <span *ngSwitchCase="true" [ngStyle]="{'color':darkModeChecked == false ? '#FFDF00' : '#786900'}"> Player 1</span>
+      <span *ngSwitchCase="false"
+            [ngStyle]="{'color':darkModeChecked == false ? '#D63636' : '#651919'}"> Player 2</span> won the game!</p>
+    <p *ngSwitchCase="'gameOverTie'">All cells are filled, the game ends in a draw!</p>
+    <p *ngSwitchCase="'newGame'" [ngSwitch]="turn">A new game has started!
+      <span *ngSwitchCase="true" [ngStyle]="{'color':darkModeChecked == false ? '#D63636' : '#651919'}"> Player 2</span>
+      <span *ngSwitchCase="false"
+            [ngStyle]="{'color':darkModeChecked == false ? '#FFDF00' : '#786900'}"> Player 1</span>
+      was randomly chosen to start!</p>
+    <p *ngSwitchCase="'tryAgain'" [ngSwitch]="turn">
+      <span *ngSwitchCase="true" [ngStyle]="{'color':darkModeChecked == false ? '#D63636' : '#651919'}"> Player 2</span>
+      <span *ngSwitchCase="false"
+            [ngStyle]="{'color':darkModeChecked == false ? '#FFDF00' : '#786900'}"> Player 1</span>, please choose a
+      column with at least one empty cell!</p>
+  </header>
+  <!-- This section contains only the board -->
+  <section>
+    <table>
+      <!-- Here, in addition to darkening the color of the board in case the dark mode is on,
+      the shadows are also removed for a more realistic effect -->
+      <tbody
+        [ngStyle]="{'background-color':darkModeChecked == false ? '#60B2FE' : '#7099BF',
+        'box-shadow':darkModeChecked == false ? 'rgb(38, 57, 77) 0px 20px 30px -10px' : 'unset'}">
+      <!-- ngFor directive is used to create the rows and columns of the board -->
+      <tr *ngFor="let row of rows">
+        <!-- If a cell is clicked by a player, the method dropPawn is called with the value of the column -->
+        <td (click)="dropPawn(column);" *ngFor="let column of columns" [ngSwitch]="board[row][column]">
+          <!-- Pawns style is dynamically changed here. ngClass was used to style the winning pawns because they
+          contain pseudo-elements (for the winning animation) that are impossible to style with ngStyle -->
+          <button *ngSwitchCase="'redPawn'"
+                  [ngStyle]="{'background-color':darkModeChecked == false ? '#D63636' : '#651919'}"
+                  class="pawnStyle redPawn" type="button"></button>
+          <button *ngSwitchCase="'yellowPawn'"
+                  [ngStyle]="{'background-color':darkModeChecked == false ? '#FFDF00' : '#786900'}"
+                  class="pawnStyle yellowPawn" type="button"></button>
+          <button *ngSwitchCase="'yellowPawnWinner'"
+                  [ngClass]="darkModeChecked == true ? 'winningPawnStyle yellowPawnWinnerDark' :
+                  'winningPawnStyle yellowPawnWinner'" type="button"></button>
+          <button *ngSwitchCase="'redPawnWinner'"
+                  [ngClass]="darkModeChecked == true ? 'winningPawnStyle redPawnWinnerDark' :
+                  'winningPawnStyle redPawnWinner'" type="button"></button>
+          <button *ngSwitchDefault [ngStyle]="{'background-color':darkModeChecked == false ? '#F0FFFE' : '#717877'}"
+                  class="pawnStyle emptyCell" type="button"></button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+<!-- No footer was made for this project -->

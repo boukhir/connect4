@@ -1,0 +1,338 @@
+/*——————————————————————
+[Table of contents]
+
+1. Body header style
+2. Dark mode switch style
+3. Main style (<main> element)
+4. Main header style
+5. "Start a new game" button style
+6. Game status message style
+7. Game board style
+8. Pawns style
+9. Responsive design media queries
+
+——————————————————————-*/
+/*
+**************************
+1. Body header style
+**************************
+*/
+#header {
+  height: 10vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
+}
+
+#header h1 {
+  font-family: 'Exo', sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #53356E;
+}
+
+/*
+**************************
+2. Dark mode switch style
+**************************
+*/
+#darkModeSwitchContainer {
+  width: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.darkModeSwitch {
+  position: relative;
+  width: 70px;
+  height: 36px;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  border-radius: 30px;
+  background-color: #F5f53d;
+  cursor: pointer;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  height: 30px;
+  width: 30px;
+  border-radius: 30px;
+  content: "";
+  transition: .4s;
+}
+
+.lightSlider:before {
+  background-color: #ffffff;
+}
+
+.darkSlider:before {
+  background-color: #E1D9D1;
+}
+
+input:checked + .slider {
+  background-color: #333330;
+}
+
+input:checked + .slider:before {
+  transform: translateX(33px);
+}
+
+/*
+**************************
+3. Main style (<main> element)
+**************************
+*/
+main {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/*
+**************************
+4. Main header style
+**************************
+*/
+main header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 25px 0px;
+}
+
+/*
+**************************
+5. "Start a new game" button style
+**************************
+*/
+#buttonContainer {
+  text-align: center;
+}
+
+/* Light Mode On Button style */
+.startNewGameBtn {
+  font-family: 'Play', sans-serif;
+  cursor: pointer;
+  line-height: 1;
+  border-radius: 30px;
+  border: 1px solid transparent;
+  padding: 16px 14px 18px;
+  color: #23B8A8;
+  box-shadow: inset 0 0 0 2px #23B8A8;
+  background-color: transparent;
+  height: 48px;
+  font-weight: 500;
+}
+
+.startNewGameBtn:hover {
+  color: #fff;
+  background-color: #23B8A8;
+}
+
+/* Dark Mode On Button style */
+.startNewGameBtnDark {
+  color: #11564f;
+  box-shadow: inset 0 0 0 2px #11564f;
+}
+
+.startNewGameBtnDark:hover {
+  color: #d0d0d0;
+  background-color: #11564f;
+}
+
+main header button:active {
+  transform: scale(0.95);
+  box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+}
+
+/*
+**************************
+6. Game status message style
+**************************
+*/
+main header p {
+  margin-top: 15px;
+  margin-bottom: 0px;
+  font-weight: bold;
+  padding: 0px 10px;
+}
+
+/*
+**************************
+7. Game board style
+**************************
+*/
+table {
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 600px;
+  max-width: 700px;
+  max-height: 600px;
+  table-layout: fixed;
+}
+
+table td {
+  width: 100%;
+  max-width: 100px;
+}
+
+tbody {
+  background-color: #60B2FE;
+}
+
+tbody td {
+  cursor: pointer;
+}
+
+/*
+**************************
+8. Pawns style
+**************************
+*/
+/* Normal pawns style */
+.pawnStyle {
+  display: block;
+  width: 85%;
+  height: 85%;
+  border-radius: 50%;
+  border: none;
+  margin: auto;
+  cursor: pointer;
+}
+
+.emptyCell {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.15) 0px 18px 36px -18px inset;
+}
+
+.redPawn, .yellowPawn {
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+/* Winning pawns style */
+.winningPawnStyle {
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  border-radius: 50%;
+  width: 85%;
+  height: 85%;
+  position: relative;
+  overflow: hidden;
+  border: none;
+  margin: auto;
+  display: block;
+}
+
+/* Light Mode On winner pawns style */
+.redPawnWinner {
+  background-color: #D63636;
+}
+
+.yellowPawnWinner {
+  background-color: #FFDF00;
+}
+
+.winningPawnStyle:before {
+  content: "";
+  background-image: conic-gradient(
+      #03C03C 20deg,
+      transparent 120deg
+  );
+  height: 150%;
+  width: 150%;
+  position: absolute;
+  left: -25%;
+  top: -25%;
+  animation: winningPawnsAnimation 1s infinite linear;
+}
+
+.winningPawnStyle:after {
+  content: "";
+  height: 90%;
+  width: 90%;
+  position: absolute;
+  border-radius: 50%;
+  top: 5%;
+  left: 5%;
+}
+
+.redPawnWinner:after {
+  background-color: #D63636;
+}
+
+.yellowPawnWinner:after {
+  background-color: #FFDF00;
+}
+
+/* Dark Mode On winner pawns style */
+.redPawnWinnerDark {
+  background-color: #651919;
+}
+
+.yellowPawnWinnerDark {
+  background-color: #786900;
+}
+
+.redPawnWinnerDark:before, .yellowPawnWinnerDark:before {
+  background-image: conic-gradient(
+      #014b17 20deg,
+      transparent 120deg
+  );
+}
+
+.redPawnWinnerDark:after {
+  background-color: #651919;
+}
+
+.yellowPawnWinnerDark:after {
+  background-color: #786900;
+}
+
+/* Winning pawns animation */
+@keyframes winningPawnsAnimation {
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+/*
+**************************
+9. Responsive design media queries
+**************************
+*/
+@media (max-width: 600px) {
+  table {
+    height: 500px;
+  }
+  header {
+    zoom: 90%;
+  }
+  main header {
+    zoom: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  table {
+    height: 400px;
+  }
+  header {
+    zoom: 80%;
+  }
+  main header {
+    zoom: 80%;
+  }
+}
